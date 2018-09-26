@@ -2,7 +2,24 @@ package com.company;
 
 import java.util.Scanner;
 
-public class Part2 {
+public class Part2A {
+    public static int guessRandom(int low,int high){
+        int x = high - low;
+        if(x == 1){
+            return low;
+        }
+        if(x == 0){
+            return high;
+        }
+        int num = (int) Math.floor((Math.random() * x) + 1);
+        if(num == low) {
+            num++;
+        }
+        if(num == high){
+            num--;
+        }
+        return num + low;
+    }
     public static void main(String[] args) {
         boolean finished = false;
         int numGuess = 1;
@@ -23,36 +40,25 @@ public class Part2 {
             }
 
             else if(reply.equals("higher")){
+                if(num - max == -1 || num == 100){
+                    System.out.println("The number can't be any higher than this! Ending game due to user error.");
+                    System.exit(0);
+                }
                 numGuess++;
                 min = num;
-                x = max - min - 1;
-                if(x < 0){
-                    System.out.println("Impossible! This has to be the number!");
-                    finished = true;
-                }
+                num = guessRandom(min,max);
 
-                /* if(x == 1){
-                    num++;
-                    while(!finished) {
-                        System.out.println("The number has to be " + num + ".");
-                        reply = input.nextLine();
-                        if (reply.equals("correct")) {
-                            finished = true;
-                        } else {
-                            System.out.println("There's no way it can be any other number!");
-                        }
-                    }
-                } */
-                num = (int) Math.floor((Math.random() * x) + 1);
-                num += min;
             }
 
             else if(reply.equals("lower")) {
+                if(num - min == 1 || num == 0){
+                    System.out.println("The number can't be any lower than this! Ending game due to user error.");
+                    System.exit(0);
+                }
                 numGuess++;
                 max = num;
-                x = max - min - 1;
-                num = (int) Math.floor((Math.random() * x) + 1);
-                num += min;
+                num = guessRandom(min,max);
+
             }
 
             else {
